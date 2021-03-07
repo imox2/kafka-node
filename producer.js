@@ -1,5 +1,5 @@
 const Kafka = require('kafka-node');
-const config  = require('./config');
+const config  = require('./config/config');
 
 const Producer = Kafka.Producer;
 const client = new Kafka.KafkaClient({kafkaHost: config.KafkaHost});

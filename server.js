@@ -14,15 +14,13 @@ const getPing = (req,res) => {
 	res.send('server is running on port - ' + port);
 }
 
-const handlePost = (req,res) => {
-	console.log(req.body);
-	res.sendStatus(200);
-}
-
-// router
-app.get('/api/ping', getPing);
-app.post('/api/kafka', handlePost);
+// routes
+app.get('/ping', getPing);
 app.get('/', getPing);
+// router
+const apiRouter = express.Router();
+require('./routes/kafka/kafka.routes')(apiRouter);
+app.use('/api', apiRouter);
 
 // START THE SERVER
 // =============================================================================

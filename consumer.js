@@ -1,5 +1,5 @@
 const kafka = require('kafka-node');
-const config = require('./config');
+const config = require('./config/config');
 
 try {
   const Consumer = kafka.Consumer;
