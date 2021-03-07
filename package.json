@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/imox2/kafka-node#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "kafka-node": "^5.0.0"
   }
 }
