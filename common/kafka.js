@@ -1,8 +1,13 @@
 const Kafka = require('kafka-node');
 const config = require('../config/config')
 
-const client = new Kafka.KafkaClient({kafkaHost: config.KafkaHost});
-const producer = new Kafka.Producer(client);
+const client1 = new Kafka.KafkaClient({kafkaHost: config.KafkaHost});
+const client2 = new Kafka.KafkaClient({kafkaHost: config.KafkaHost});
+const client3 = new Kafka.KafkaClient({kafkaHost: config.KafkaHost});
+const producer = new Kafka.Producer(client1);
+
+
+client1.on('ready', function () { console.log('client1 ready!') })
 
 const topicsToCreate = [{
     topic: 'FIS',
@@ -25,7 +30,7 @@ let consumer3;
 
 const api = {
 	createTopics: async topicsToCreate => {
-		client.createTopics(topicsToCreate, (error, result) => {
+		client1.createTopics(topicsToCreate, (error, result) => {
 		  // result is an array of any errors if a given topic could not be created
 		  console.log(result, 'topic created successfully');
 		});
@@ -36,12 +41,12 @@ const api = {
     	});
 	},
 	attachConsumers: () => {
-		consumer1 =  new Kafka.Consumer(client,[]);
-		consumer2 =  new Kafka.Consumer(client,[]);
-		consumer3 =  new Kafka.Consumer(client,[{topic: 'AFS', partition: 0}]);
-		consumer1.addTopics([ {topic: 'FIS', partition: 0}], () => console.log("topic FIS added"));
-		consumer2.addTopics([ {topic: 'TSYS', partition: 0}], () => console.log("topic TSYS added"));
-		consumer3.addTopics([ {topic: 'AFS', partition: 0}], () => console.log("topic AFS added"));
+		consumer1 =  new Kafka.Consumer(client1,[{topic: 'FIS', partition: 0}]);
+		consumer2 =  new Kafka.Consumer(client2,[{topic: 'TSYS', partition: 0}]);
+		consumer3 =  new Kafka.Consumer(client3,[{topic: 'AFS', partition: 0}]);
+		// consumer1.addTopics([ {topic: 'FIS', partition: 0}], () => console.log("topic FIS added"));
+		// consumer2.addTopics([ {topic: 'TSYS', partition: 0}], () => console.log("topic TSYS added"));
+		// consumer3.addTopics([ {topic: 'AFS', partition: 0}], () => console.log("topic AFS added"));
 		consumer1.on('message',(message) =>{
 		    console.log(11, message);
 		});
